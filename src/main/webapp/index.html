@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Timbrature Aziendali</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5; /* Grigio Chiarissimo Sfondo */
+            color: #333333; /* Grigio Scuro Testo */
+        }
+
+        h1 {
+            text-align: center;
+            color: #b71c1c; /* Rosso Scuro Intestazione */
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 4px solid #b71c1c;
+            display: inline-block; /* Per far funzionare il bordo solo sotto il testo */
+            padding-bottom: 10px;
+            /* Per centrare l'h1 con display inline-block */
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h2 {
+            color: #b71c1c; /* Rosso Scuro */
+            border-bottom: 2px solid #eeeeee; /* Grigio Chiaro Sottolineatura */
+            padding-bottom: 8px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 500;
+            font-size: 1.3em;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background-color: #ffffff; /* Bianco */
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .section {
+            padding: 30px;
+            border: 1px solid #e0e0e0; /* Grigio Medio Bordo */
+            border-radius: 8px;
+            background-color: #ffffff;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555555; /* Grigio Medio-Scuro */
+        }
+
+        input[type="text"] {
+            width: calc(100% - 26px); /* padding 12px * 2 */
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #cccccc; /* Grigio Medio */
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #c62828; /* Rosso Intenso Focus */
+            box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.2);
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #c62828; /* Rosso Intenso */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            background-color: #a31515; /* Rosso più Scuro Hover */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #refreshButton {
+            background-color: #616161; /* Grigio Scuro */
+        }
+
+        #refreshButton:hover {
+            background-color: #424242; /* Grigio Più Scuro */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 8px; /* Arrotonda gli angoli della tabella */
+            overflow: hidden; /* Nasconde ciò che esce dai bordi arrotondati */
+        }
+
+        th, td {
+            border-bottom: 1px solid #e0e0e0; /* Solo bordi orizzontali */
+            padding: 14px 18px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #424242; /* Grigio Molto Scuro Intestazione */
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f8f8; /* Grigio Chiarissimo Righe Pari */
+        }
+
+        tr:hover {
+            background-color: #e9e9e9; /* Grigio Chiaro Hover */
+        }
+
+        td {
+            color: #555;
+        }
+
+        #messages {
+            margin: 0 auto 25px auto;
+            max-width: 1200px;
+            padding: 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            display: none;
+            min-height: 1.6em;
+            font-size: 1.05em;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+            display: block !important;
+        }
+
+        .error {
+            background-color: #ffebee; /* Rosa Chiaro Errore */
+            color: #c62828; /* Rosso Intenso Errore */
+            border: 1px solid #ef9a9a; /* Rosso Chiaro Bordo Errore */
+            display: block !important;
+        }
+
+        /* Layout Responsivo */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Pannello Gestione Timbrature</h1>
+
+    <div id="messages"></div>
+
+    <div class="container">
+        <div class="section">
+            <h2>Registra Nuovo Accesso</h2>
+            <form id="registerForm">
+                <label for="regRfid">Codice RFID:</label>
+                <input type="text" id="regRfid" name="rfid" required placeholder="Es: RFID0001">
+                <label for="regTotem">Codice Totem:</label>
+                <input type="text" id="regTotem" name="totem" required placeholder="Es: INGR0001">
+                <button type="submit">Registra</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Elimina Ultimo Accesso</h2>
+            <form id="deleteForm">
+                <label for="delRfid">Codice RFID:</label>
+                <input type="text" id="delRfid" name="rfid" required placeholder="Es: RFID0001">
+                <button type="submit">Elimina Ultimo</button>
+            </form>
+        </div>
+
+        <div class="section" style="grid-column: 1 / -1;"> <h2>Accessi di Oggi</h2>
+            <button id="refreshButton">Aggiorna Elenco</button>
+            <div id="accessList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>RFID</th>
+                            <th>Totem</th>
+                            <th>Giorno</th>
+                            <th>Ora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accessTableBody">
+                        <tr>
+                            <td colspan="4" style="text-align: center;">Caricamento...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL base del nostro API (usa un percorso relativo)
+        const apiUrl = 'api/timbrature';
+
+        // Riferimenti agli elementi DOM
+        const registerForm = document.getElementById('registerForm');
+        const deleteForm = document.getElementById('deleteForm');
+        const refreshButton = document.getElementById('refreshButton');
+        const accessTableBody = document.getElementById('accessTableBody');
+        const messagesDiv = document.getElementById('messages');
+        const regRfidInput = document.getElementById('regRfid');
+        const regTotemInput = document.getElementById('regTotem');
+        const delRfidInput = document.getElementById('delRfid');
+
+        /**
+         * Mostra un messaggio all'utente.
+         */
+        function showMessage(text, isError = false) {
+            messagesDiv.textContent = text;
+            messagesDiv.className = isError ? 'error' : 'success';
+            // Non impostiamo più display qui, usiamo le classi CSS
+            setTimeout(() => {
+                messagesDiv.textContent = '';
+                messagesDiv.className = '';
+            }, 7000);
+        }
+
+        /**
+         * Pulisce e popola la tabella degli accessi.
+         */
+        function displayAccesses(accessi) {
+            accessTableBody.innerHTML = ''; // Pulisce la tabella
+
+            if (accessi.length === 0) {
+                accessTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nessun accesso registrato oggi.</td></tr>';
+                return;
+            }
+
+            accessi.forEach(accesso => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${accesso.rfid}</td>
+                    <td>${accesso.totem}</td>
+                    <td>${accesso.giorno}</td>
+                    <td>${accesso.ora}</td>
+                `;
+                accessTableBody.appendChild(row);
+            });
+        }
+
+        /**
+         * Recupera gli accessi odierni dal server.
+         */
+        async function fetchTodaysAccesses() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`Errore HTTP: ${response.status} - ${response.statusText}`);
+                }
+                const data = await response.json();
+                displayAccesses(data);
+            } catch (error) {
+                console.error('Errore nel recupero accessi:', error);
+                showMessage(`Errore nel caricamento degli accessi: ${error.message}`, true);
+                accessTableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Errore nel caricamento.</td></tr>';
+            }
+        }
+
+        /**
+         * Gestisce la registrazione di un nuovo accesso.
+         */
+        async function handleRegister(event) {
+            event.preventDefault();
+
+            const rfid = regRfidInput.value;
+            const totem = regTotemInput.value;
+
+            const params = new URLSearchParams();
+            params.append('rfid', rfid);
+            params.append('totem', totem);
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: params
+                });
+
+                const responseText = await response.text();
+
+                if (response.ok) {
+                    showMessage(responseText || 'Accesso registrato con successo!');
+                    registerForm.reset();
+                    fetchTodaysAccesses();
+                } else {
+                    throw new Error(responseText || `Errore HTTP: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Errore nella registrazione:', error);
+                showMessage(`${error.message}`, true);
+            }
+        }
+
+        /**
+         * Gestisce l'eliminazione dell'ultimo accesso.
+         */
+        async function handleDelete(event) {
+            event.preventDefault();
+
+            const rfid = delRfidInput.value;
+            const deleteUrl = `${apiUrl}?rfid=${encodeURIComponent(rfid)}`;
+
+            if (!confirm(`Sei sicuro di voler eliminare l'ultimo accesso per l'RFID ${rfid}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(deleteUrl, {
+                    method: 'DELETE'
+                });
+
+                const responseText = await response.text();
+
+                if (response.ok) {
+                    showMessage(responseText || 'Ultimo accesso eliminato con successo!');
+                    deleteForm.reset();
+                    fetchTodaysAccesses();
+                } else {
+                     throw new Error(responseText || `Errore HTTP: ${response.status}`);
+                }
+            } catch (error) {
+                console.error("Errore nell'eliminazione:", error);
+                showMessage(`Errore nell'eliminazione: ${error.message}`, true);
+            }
+        }
+
+        // Aggiunge gli event listener
+        registerForm.addEventListener('submit', handleRegister);
+        deleteForm.addEventListener('submit', handleDelete);
+        refreshButton.addEventListener('click', fetchTodaysAccesses);
+
+        // Carica gli accessi all'avvio della pagina
+        document.addEventListener('DOMContentLoaded', fetchTodaysAccesses);
+
+    </script>
+</body>
+</html>

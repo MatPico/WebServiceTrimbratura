@@ -1,0 +1,4 @@
+com\azienda\timbratura\db\DatabaseManager.class
+com\azienda\timbratura\dao\TimbraturaDAO.class
+com\azienda\timbratura\model\Timbratura.class
+com\azienda\timbratura\servlet\TimbraturaServlet.class
