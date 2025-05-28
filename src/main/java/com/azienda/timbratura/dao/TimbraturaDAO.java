@@ -1,5 +1,5 @@
 package com.azienda.timbratura.dao;
-
+// data access object
  import com.azienda.timbratura.db.DatabaseManager;
  import com.azienda.timbratura.model.Timbratura;
 
@@ -11,12 +11,6 @@ package com.azienda.timbratura.dao;
 
  public class TimbraturaDAO {
 
-     /**
-      * Recupera la postazione ('ingresso' o 'uscita') dell'ultimo evento
-      * registrato per un dato codice RFID.
-      * @param codiceRfid Il codice RFID.
-      * @return La postazione ("ingresso" o "uscita") o null se non ci sono eventi.
-      */
      private String getLastPostazione(String codiceRfid) {
          String sql = "SELECT t2.postazione " +
                       "FROM timbrature t1 " +
@@ -43,11 +37,6 @@ package com.azienda.timbratura.dao;
          }
      }
 
-     /**
-      * Recupera la postazione ('ingresso' o 'uscita') di un dato totem.
-      * @param codiceTotem Il codice del totem.
-      * @return La postazione o null se il totem non esiste.
-      */
      private String getTornelloPostazione(String codiceTotem) {
          String sql = "SELECT postazione FROM tornelli WHERE codice_totem = ?";
 
@@ -69,11 +58,6 @@ package com.azienda.timbratura.dao;
          }
      }
 
-     /**
-      * Controlla se un codice RFID esiste nella tabella lavoratori.
-      * @param codiceRfid Il codice RFID da controllare.
-      * @return true se esiste, false altrimenti.
-      */
       private boolean checkRfidExists(String codiceRfid) {
          String sql = "SELECT id FROM lavoratori WHERE codice_rfid = ?";
          try (Connection conn = DatabaseManager.getConnection();
@@ -88,14 +72,6 @@ package com.azienda.timbratura.dao;
       }
 
 
-     /**
-      * Registra un nuovo accesso con controlli di sequenza.
-      * @param codiceRfid Il codice RFID del dipendente.
-      * @param codiceTotem Il codice del lettore RFID.
-      * @return Una stringa che indica il risultato: "OK", "ERR_ALREADY_IN",
-      * "ERR_ALREADY_OUT", "ERR_MUST_ENTER", "ERR_RFID_NOT_FOUND",
-      * "ERR_TOTEM_NOT_FOUND", "ERR_DB".
-      */
      public String registraAccesso(String codiceRfid, String codiceTotem) {
 
          // 1. Controlla se l'RFID esiste
@@ -142,7 +118,7 @@ package com.azienda.timbratura.dao;
              pstmt.setTime(4, Time.valueOf(LocalTime.now()));
 
              int affectedRows = pstmt.executeUpdate();
-             return affectedRows > 0 ? "OK" : "ERR_DB"; // Se 0 righe affette, è strano -> ERR_DB
+             return affectedRows > 0 ? "OK" : "ERR_DB"; 
 
          } catch (SQLException e) {
              System.err.println("Errore SQL durante la registrazione accesso: " + e.getMessage());
@@ -151,11 +127,6 @@ package com.azienda.timbratura.dao;
          }
      }
 
-     /**
-      * Elimina l'ultimo accesso registrato per un dato codice RFID.
-      * @param codiceRfid Il codice RFID del dipendente.
-      * @return true se l'eliminazione ha successo, false altrimenti.
-      */
      public boolean eliminaUltimoAccesso(String codiceRfid) {
          String findLastIdSql = "SELECT id FROM timbrature WHERE codice_rfid_utente = ? ORDER BY giorno DESC, ora DESC LIMIT 1";
          String deleteSql = "DELETE FROM timbrature WHERE id = ?";
@@ -198,10 +169,7 @@ package com.azienda.timbratura.dao;
          return false;
      }
 
-     /**
-      * Restituisce l'elenco di tutti gli accessi registrati nella giornata odierna.
-      * @return Una lista di oggetti Timbratura.
-      */
+
      public List<Timbratura> getAccessiOggi() {
          List<Timbratura> accessi = new ArrayList<>();
          String sql = "SELECT id, codice_rfid_utente, codice_totem, giorno, ora FROM timbrature WHERE giorno = ?";

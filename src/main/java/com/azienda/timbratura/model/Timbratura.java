@@ -4,7 +4,7 @@ package com.azienda.timbratura.model;
  import java.sql.Time;
 
  public class Timbratura {
-
+     // incapsulamento
      private int id;
      private String codiceRfidUtente;
      private String codiceTotem;
@@ -19,16 +19,15 @@ package com.azienda.timbratura.model;
          this.ora = ora;
      }
 
-     // Getters
+     // Getters ma non esistono setters
      public int getId() { return id; }
      public String getCodiceRfidUtente() { return codiceRfidUtente; }
      public String getCodiceTotem() { return codiceTotem; }
      public Date getGiorno() { return giorno; }
      public Time getOra() { return ora; }
 
-     /**
-      * Ritorna una rappresentazione JSON semplificata dell'oggetto.
-      */
+     // prepara la stringa in json da inviare all'api per la comunicazione
+     // protocollo di comunicazione:
      public String toJson() {
          return String.format("{\"rfid\": \"%s\", \"totem\": \"%s\", \"giorno\": \"%s\", \"ora\": \"%s\"}",
                  codiceRfidUtente, codiceTotem, giorno.toString(), ora.toString());

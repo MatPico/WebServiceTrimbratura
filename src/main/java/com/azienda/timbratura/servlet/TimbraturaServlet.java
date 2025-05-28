@@ -2,7 +2,7 @@ package com.azienda.timbratura.servlet;
 
  import com.azienda.timbratura.dao.TimbraturaDAO;
  import com.azienda.timbratura.model.Timbratura;
- // Import Java EE 7 (javax)
+
  import javax.servlet.ServletException;
  import javax.servlet.annotation.WebServlet;
  import javax.servlet.http.HttpServlet;
@@ -24,9 +24,6 @@ package com.azienda.timbratura.servlet;
          timbraturaDAO = new TimbraturaDAO();
      }
 
-     /**
-      * Gestisce le richieste GET per ottenere gli accessi odierni.
-      */
      @Override
      protected void doGet(HttpServletRequest request, HttpServletResponse response)
              throws ServletException, IOException {
@@ -46,9 +43,6 @@ package com.azienda.timbratura.servlet;
          out.flush();
      }
 
-     /**
-      * Gestisce le richieste POST per registrare un nuovo accesso (CON CONTROLLI).
-      */
      @Override
      protected void doPost(HttpServletRequest request, HttpServletResponse response)
              throws ServletException, IOException {
@@ -102,9 +96,6 @@ package com.azienda.timbratura.servlet;
      }
 
 
-     /**
-      * Gestisce le richieste DELETE per eliminare l'ultimo accesso di un utente.
-      */
      @Override
      protected void doDelete(HttpServletRequest request, HttpServletResponse response)
              throws ServletException, IOException {
